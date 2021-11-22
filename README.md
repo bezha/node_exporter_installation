@@ -1,1 +1,1 @@
-Asible script for Prometheus installation
+Asible script for node_exporter installation
