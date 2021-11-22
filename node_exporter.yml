@@ -1,0 +1,27 @@
+---
+- hosts: all
+  remote_user: root
+
+  tasks:
+  - name: Add prometheus repo
+    yum_repository:
+      name: prometheus
+      description: prometheus YUM repo
+      file: prometheus
+      repo_gpgcheck: yes
+      baseurl: https://packagecloud.io/prometheus-rpm/release/el/$releasever/$basearch
+      gpgkey: https://packagecloud.io/prometheus-rpm/release/gpgkey https://raw.githubusercontent.com/lest/prometheus-rpm/master/RPM-GPG-KEY-prometheus-rpm
+      gpgcheck: yes
+      metadata_expire: '300'
+      enabled: yes
+
+  - name: install 'node_exporter'
+    yum:
+      name: [ 'node_exporter' ]
+      state: present
+
+  - name: start/restart and enable node_exporter
+    service:
+        name: node_exporter
+        state: restarted
+        enabled: yes
